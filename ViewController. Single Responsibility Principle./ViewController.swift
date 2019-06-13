@@ -14,8 +14,7 @@ struct Country: Decodable {
     var Name: String
     var Image: String?
 }
-// у каждого экрана есть
-// вообщем простыми словами суть такая что
+
 class ViewController: UIViewController {
     
     let urlString = "https://raw.githubusercontent.com/Softex-Group/task-mobile/master/test.json"
@@ -34,8 +33,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.layer.cornerRadius = saveButton.frame.width / 2
-        
-//        dataFetcher()
+
         networkService.dataFetcher(urlString: urlString)
     }
     
