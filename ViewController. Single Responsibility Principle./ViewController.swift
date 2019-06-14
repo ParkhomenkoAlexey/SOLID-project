@@ -8,19 +8,21 @@
 
 import UIKit
 
-struct Country: Decodable {
-    var Id: String
-    var Time: String
-    var Name: String
-    var Image: String?
-}
+
 
 class ViewController: UIViewController {
     
     let urlString = "https://raw.githubusercontent.com/Softex-Group/task-mobile/master/test.json"
     
+    let urlGames = "https://rss.itunes.apple.com/api/v1/us/ios-apps/new-games-we-love/all/10/explicit.json"
+    
+    let urlFree = "https://rss.itunes.apple.com/api/v1/us/ios-apps/top-free/all/10/explicit.json"
+    
+    let urlExpensive = "https://rss.itunes.apple.com/api/v1/us/ios-apps/top-grossing/all/10/explicit.json"
+    
     // Внешние зависимости
-    var networkService = NetworkService()
+    //var networkService = NetworkService()
+    var nerworkDataFetcher = NetworkDataFetcher()
     let dataStore = DataStore()
     
     // Элементы пользовательского интерфейса
@@ -33,8 +35,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.layer.cornerRadius = saveButton.frame.width / 2
+        
+        nerworkDataFetcher.fetchExpensive(urlString: urlExpensive) { (appGroup) in
+            print(appGroup?.feed.results.first?.name)
+        }
+        
+        nerworkDataFetcher.fetchFree(urlString: urlFree) { (appGroup) in
+            print(appGroup?.feed.results.first?.name)
+        }
+        
+        nerworkDataFetcher.fetchGames(urlString: urlGames) { (appGroup) in
+            print(appGroup?.feed.results.first?.name)
+        }
 
-        networkService.dataFetcher(urlString: urlString)
+        nerworkDataFetcher.fetchCountry(urlString: urlString) { (countries) in
+            print(countries?.first?.Name)
+        }
     }
     
     // MARK: - Business logic
